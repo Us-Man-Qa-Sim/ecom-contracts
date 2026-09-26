@@ -2,17 +2,65 @@
   "name": "@us-man-qa-sim/ecom-contracts",
   "version": "0.1.0",
   "description": "Shared .proto definitions and event schemas for the ecom microservices platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./events": {
+      "types": "./dist/events/index.d.ts",
+      "default": "./dist/events/index.js"
+    },
+    "./generated/common": {
+      "types": "./dist/generated/ecom/common/v1/common.d.ts",
+      "default": "./dist/generated/ecom/common/v1/common.js"
+    },
+    "./generated/user": {
+      "types": "./dist/generated/ecom/user/v1/user.d.ts",
+      "default": "./dist/generated/ecom/user/v1/user.js"
+    },
+    "./generated/product": {
+      "types": "./dist/generated/ecom/product/v1/product.d.ts",
+      "default": "./dist/generated/ecom/product/v1/product.js"
+    },
+    "./generated/order": {
+      "types": "./dist/generated/ecom/order/v1/order.d.ts",
+      "default": "./dist/generated/ecom/order/v1/order.js"
+    }
+  },
   "scripts": {
     "proto:lint": "buf lint proto",
-    "proto:breaking": "buf breaking proto --against \".git#branch=main,subdir=proto\""
+    "proto:breaking": "buf breaking proto --against \".git#branch=main,subdir=proto\"",
+    "proto:generate": "buf generate proto",
+    "build": "tsc -p tsconfig.build.json",
+    "prebuild": "buf generate proto"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@bufbuild/buf": "1.73.0"
+    "@bufbuild/buf": "1.73.0",
+    "@grpc/grpc-js": "^1.14.5",
+    "@nestjs/common": "^12.1.0",
+    "@nestjs/core": "^12.1.0",
+    "@nestjs/microservices": "^12.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "ts-proto": "2.12.4",
+    "typescript": "6.0.3"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": ">=1.14.0",
+    "@nestjs/microservices": ">=12.0.0",
+    "rxjs": ">=7.0.0"
   },
   "engines": {
     "node": ">=24.0.0"
   },
   "allowScripts": {
-    "@bufbuild/buf@1.73.0": true
+    "@bufbuild/buf@1.73.0": true,
+    "protobufjs@7.6.6": true
   }
 }
