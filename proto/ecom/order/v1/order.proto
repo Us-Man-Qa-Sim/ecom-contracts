@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package ecom.order.v1;
+
+import "google/protobuf/timestamp.proto";
+import "ecom/common/v1/common.proto";
+
+enum OrderStatus {
+  ORDER_STATUS_UNSPECIFIED = 0;
+  ORDER_STATUS_PENDING = 1;
+  ORDER_STATUS_CONFIRMED = 2;
+  ORDER_STATUS_SHIPPED = 3;
+  ORDER_STATUS_DELIVERED = 4;
+  ORDER_STATUS_CANCELLED = 5;
+}
+
+message ShippingAddress {
+  string street = 1;
+  string city = 2;
+  optional string state = 3;
+  string postal_code = 4;
+  string country = 5;
+}
+
+message OrderItem {
+  string id = 1;
+  string product_id = 2;
+  string product_name = 3;
+  int32 unit_price_minor = 4;
+  int32 quantity = 5;
+}
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  OrderStatus status = 3;
+  int32 total_minor = 4;
+  string currency = 5;
+  ShippingAddress shipping_address = 6;
+  repeated OrderItem items = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+message CreateOrderItemInput {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message CreateOrderRequest {
+  string address_id = 1;
+  repeated CreateOrderItemInput items = 2;
+}
+
+message CreateOrderResponse {
+  Order order = 1;
+}
+
+message GetOrderRequest {
+  string order_id = 1;
+}
+
+message GetOrderResponse {
+  Order order = 1;
+}
+
+message ListMyOrdersRequest {
+  ecom.common.v1.PaginationRequest pagination = 1;
+  optional OrderStatus status = 2;
+}
+
+message ListMyOrdersResponse {
+  repeated Order orders = 1;
+  ecom.common.v1.PaginationResponse pagination = 2;
+}
+
+message ListAllOrdersRequest {
+  ecom.common.v1.PaginationRequest pagination = 1;
+  optional OrderStatus status = 2;
+  optional string user_id = 3;
+}
+
+message ListAllOrdersResponse {
+  repeated Order orders = 1;
+  ecom.common.v1.PaginationResponse pagination = 2;
+}
+
+message CancelOrderRequest {
+  string order_id = 1;
+  optional string reason = 2;
+}
+
+message CancelOrderResponse {
+  Order order = 1;
+}
+
+message ShipOrderRequest {
+  string order_id = 1;
+}
+
+message ShipOrderResponse {
+  Order order = 1;
+}
+
+message DeliverOrderRequest {
+  string order_id = 1;
+}
+
+message DeliverOrderResponse {
+  Order order = 1;
+}
+
+service OrderService {
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  rpc ListMyOrders(ListMyOrdersRequest) returns (ListMyOrdersResponse);
+  rpc ListAllOrders(ListAllOrdersRequest) returns (ListAllOrdersResponse);
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+  rpc ShipOrder(ShipOrderRequest) returns (ShipOrderResponse);
+  rpc DeliverOrder(DeliverOrderRequest) returns (DeliverOrderResponse);
+}

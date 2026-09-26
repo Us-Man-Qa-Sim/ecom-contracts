@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package ecom.common.v1;
+
+message PaginationRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message PaginationResponse {
+  int32 total = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  int32 total_pages = 4;
+}
+
+message Money {
+  int32 amount_minor = 1;
+  string currency = 2;
+}
