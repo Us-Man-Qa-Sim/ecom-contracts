@@ -32,8 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and event parsing accepts valid events and rejects invalid ones.
 - CI workflow (proto lint, breaking-change detection on PRs, ESLint, Prettier,
   build, stale-codegen check, tests).
-- Publish workflow (GitHub Actions → GitHub Packages on `v*` tags, with a
-  tag/version match check, plus a GitHub Release).
+- Published publicly to npmjs.com (`publishConfig.access: public`). Publish
+  workflow (GitHub Actions on `v*` tags, npm trusted publishing, tag/version
+  match check, GitHub Release); `prepublishOnly` runs all checks before any publish.
 
 [Unreleased]: https://github.com/Us-Man-Qa-Sim/ecom-contracts/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/Us-Man-Qa-Sim/ecom-contracts/releases/tag/v0.1.0

@@ -2,7 +2,7 @@
 
 Shared `.proto` definitions and event schemas for the ecom microservices platform.
 
-Published as `@us-man-qa-sim/ecom-contracts` to GitHub Packages so every service imports the same generated TypeScript types.
+Published publicly to npmjs.com as [`@us-man-qa-sim/ecom-contracts`](https://www.npmjs.com/package/@us-man-qa-sim/ecom-contracts) so every service imports the same generated TypeScript types.
 
 ## Contents
 
@@ -13,20 +13,11 @@ Published as `@us-man-qa-sim/ecom-contracts` to GitHub Packages so every service
 
 ## Installing
 
-GitHub Packages needs a registry mapping and a token with `read:packages`. In the consuming repo, add `.npmrc`:
-
-```ini
-@us-man-qa-sim:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-Then:
+Public package, no token or `.npmrc` needed:
 
 ```bash
 npm install --save-exact @us-man-qa-sim/ecom-contracts
 ```
-
-In GitHub Actions, `secrets.GITHUB_TOKEN` works if the package grants the consuming repo read access (package settings → Manage Actions access). In Docker builds, pass the token as a build secret, not an `ARG`.
 
 ## Usage
 
@@ -107,4 +98,11 @@ npm version minor   # runs lint + build + test, bumps package.json, commits, tag
 git push --follow-tags
 ```
 
-The tag triggers the Publish workflow. It verifies the tag matches `package.json`, publishes to GitHub Packages and creates a GitHub Release.
+The tag triggers the Publish workflow. It verifies the tag matches `package.json`, publishes to npmjs.com via [trusted publishing](https://docs.npmjs.com/trusted-publishers) (no token secret) and creates a GitHub Release. One-time setup: on npmjs.com, open the package's Settings → Trusted Publisher and add GitHub Actions with repo `Us-Man-Qa-Sim/ecom-contracts` and workflow `publish.yml`.
+
+### Publishing manually (without Actions)
+
+```bash
+npm login      # opens the browser; account us-man-qa-sim
+npm publish    # prepublishOnly runs proto lint, eslint, build and tests first
+```

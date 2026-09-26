@@ -42,7 +42,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "node --test \"test/**/*.test.mjs\"",
-    "preversion": "npm run proto:lint && npm run lint && npm run build && npm test"
+    "preversion": "npm run proto:lint && npm run lint && npm run build && npm test",
+    "prepublishOnly": "npm run proto:lint && npm run lint && npm run build && npm test"
   },
   "dependencies": {
     "zod": "4.6.5"
@@ -71,10 +72,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Us-Man-Qa-Sim/ecom-contracts.git"
+    "url": "git+https://github.com/Us-Man-Qa-Sim/ecom-contracts.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "files": [
     "dist",
@@ -86,5 +88,7 @@
   "allowScripts": {
     "@bufbuild/buf@1.73.0": true,
     "protobufjs@7.6.6": true
-  }
+  },
+  "homepage": "https://github.com/Us-Man-Qa-Sim/ecom-contracts#readme",
+  "license": "MIT"
 }

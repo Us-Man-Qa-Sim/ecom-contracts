@@ -1,12 +1,16 @@
 name: Publish
 
+# Publishes to npmjs.com via npm trusted publishing (OIDC): no NPM_TOKEN secret.
+# One-time setup on npmjs.com → package Settings → Trusted Publisher:
+#   GitHub Actions, repo Us-Man-Qa-Sim/ecom-contracts, workflow publish.yml
+
 on:
   push:
     tags: ['v*']
 
 permissions:
   contents: write
-  packages: write
+  id-token: write
 
 jobs:
   publish:
@@ -19,8 +23,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-          registry-url: https://npm.pkg.github.com
-          scope: '@us-man-qa-sim'
+          registry-url: https://registry.npmjs.org
 
       - name: Verify tag matches package.json version
         run: |
@@ -32,22 +35,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Lint protos
-        run: npm run proto:lint
-
-      - name: Lint TypeScript
-        run: npm run lint
-
-      - name: Build (codegen + tsc)
-        run: npm run build
-
-      - name: Test
-        run: npm test
-
-      - name: Publish to GitHub Packages
+      - name: Publish to npmjs.com (runs prepublishOnly checks)
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         run: gh release create "$GITHUB_REF_NAME" --generate-notes
