@@ -26,7 +26,7 @@ message OrderItem {
   string id = 1;
   string product_id = 2;
   string product_name = 3;
-  int32 unit_price_minor = 4;
+  ecom.common.v1.Money unit_price = 4;
   int32 quantity = 5;
 }
 
@@ -34,12 +34,11 @@ message Order {
   string id = 1;
   string user_id = 2;
   OrderStatus status = 3;
-  int32 total_minor = 4;
-  string currency = 5;
-  ShippingAddress shipping_address = 6;
-  repeated OrderItem items = 7;
-  google.protobuf.Timestamp created_at = 8;
-  google.protobuf.Timestamp updated_at = 9;
+  ecom.common.v1.Money total = 4;
+  ShippingAddress shipping_address = 5;
+  repeated OrderItem items = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
 }
 
 message CreateOrderItemInput {

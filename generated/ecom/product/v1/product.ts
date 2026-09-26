@@ -9,7 +9,7 @@ import type { Metadata } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { PaginationRequest, PaginationResponse } from "../../common/v1/common";
+import { Money, PaginationRequest, PaginationResponse } from "../../common/v1/common";
 
 export const protobufPackage = "ecom.product.v1";
 
@@ -23,8 +23,7 @@ export interface Product {
   name: string;
   description: string;
   category: string;
-  priceMinor: number;
-  currency: string;
+  price: Money | undefined;
   stock: Stock | undefined;
   attributes: { [key: string]: string };
   images: string[];
@@ -42,8 +41,7 @@ export interface CreateProductRequest {
   name: string;
   description: string;
   category: string;
-  priceMinor: number;
-  currency: string;
+  price: Money | undefined;
   initialStock: number;
   attributes: { [key: string]: string };
   images: string[];
@@ -58,21 +56,32 @@ export interface CreateProductResponse {
   product: Product | undefined;
 }
 
+/**
+ * Wrappers give map/repeated fields presence: unset = leave unchanged,
+ * set with no entries = clear.
+ */
+export interface AttributesUpdate {
+  values: { [key: string]: string };
+}
+
+export interface AttributesUpdate_ValuesEntry {
+  key: string;
+  value: string;
+}
+
+export interface ImagesUpdate {
+  urls: string[];
+}
+
 export interface UpdateProductRequest {
   productId: string;
   name?: string | undefined;
   description?: string | undefined;
   category?: string | undefined;
-  priceMinor?: number | undefined;
-  currency?: string | undefined;
-  attributes: { [key: string]: string };
-  images: string[];
+  price: Money | undefined;
+  attributes: AttributesUpdate | undefined;
+  images: ImagesUpdate | undefined;
   isActive?: boolean | undefined;
-}
-
-export interface UpdateProductRequest_AttributesEntry {
-  key: string;
-  value: string;
 }
 
 export interface UpdateProductResponse {

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Fetch main branch for breaking-change detection
+        if: github.event_name == 'pull_request'
+        run: git fetch origin main:main
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint protos
+        run: npm run proto:lint
+
+      - name: Check proto backward compatibility
+        if: github.event_name == 'pull_request'
+        run: npm run proto:breaking
+
+      - name: Lint TypeScript
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build (codegen + tsc)
+        run: npm run build
+
+      - name: Verify committed generated code is up to date
+        run: git diff --exit-code -- generated
+
+      - name: Test
+        run: npm test

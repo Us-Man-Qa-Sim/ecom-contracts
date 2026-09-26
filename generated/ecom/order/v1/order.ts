@@ -9,7 +9,7 @@ import type { Metadata } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { PaginationRequest, PaginationResponse } from "../../common/v1/common";
+import { Money, PaginationRequest, PaginationResponse } from "../../common/v1/common";
 
 export const protobufPackage = "ecom.order.v1";
 
@@ -35,7 +35,7 @@ export interface OrderItem {
   id: string;
   productId: string;
   productName: string;
-  unitPriceMinor: number;
+  unitPrice: Money | undefined;
   quantity: number;
 }
 
@@ -43,8 +43,7 @@ export interface Order {
   id: string;
   userId: string;
   status: OrderStatus;
-  totalMinor: number;
-  currency: string;
+  total: Money | undefined;
   shippingAddress: ShippingAddress | undefined;
   items: OrderItem[];
   createdAt: Timestamp | undefined;

@@ -15,29 +15,37 @@ message Product {
   string name = 2;
   string description = 3;
   string category = 4;
-  int32 price_minor = 5;
-  string currency = 6;
-  Stock stock = 7;
-  map<string, string> attributes = 8;
-  repeated string images = 9;
-  bool is_active = 10;
-  google.protobuf.Timestamp created_at = 11;
-  google.protobuf.Timestamp updated_at = 12;
+  ecom.common.v1.Money price = 5;
+  Stock stock = 6;
+  map<string, string> attributes = 7;
+  repeated string images = 8;
+  bool is_active = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
 }
 
 message CreateProductRequest {
   string name = 1;
   string description = 2;
   string category = 3;
-  int32 price_minor = 4;
-  string currency = 5;
-  int32 initial_stock = 6;
-  map<string, string> attributes = 7;
-  repeated string images = 8;
+  ecom.common.v1.Money price = 4;
+  int32 initial_stock = 5;
+  map<string, string> attributes = 6;
+  repeated string images = 7;
 }
 
 message CreateProductResponse {
   Product product = 1;
+}
+
+// Wrappers give map/repeated fields presence: unset = leave unchanged,
+// set with no entries = clear.
+message AttributesUpdate {
+  map<string, string> values = 1;
+}
+
+message ImagesUpdate {
+  repeated string urls = 1;
 }
 
 message UpdateProductRequest {
@@ -45,11 +53,10 @@ message UpdateProductRequest {
   optional string name = 2;
   optional string description = 3;
   optional string category = 4;
-  optional int32 price_minor = 5;
-  optional string currency = 6;
-  map<string, string> attributes = 7;
-  repeated string images = 8;
-  optional bool is_active = 9;
+  ecom.common.v1.Money price = 5;
+  AttributesUpdate attributes = 6;
+  ImagesUpdate images = 7;
+  optional bool is_active = 8;
 }
 
 message UpdateProductResponse {

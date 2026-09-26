@@ -28,34 +28,58 @@
     "./generated/order": {
       "types": "./dist/generated/ecom/order/v1/order.d.ts",
       "default": "./dist/generated/ecom/order/v1/order.js"
-    }
+    },
+    "./proto/*": "./proto/*",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "proto:lint": "buf lint proto",
     "proto:breaking": "buf breaking proto --against \".git#branch=main,subdir=proto\"",
     "proto:generate": "buf generate proto",
     "build": "tsc -p tsconfig.build.json",
-    "prebuild": "buf generate proto"
+    "prebuild": "buf generate proto",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "preversion": "npm run proto:lint && npm run lint && npm run build && npm test"
   },
   "dependencies": {
-    "zod": "^4.6.5"
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@bufbuild/buf": "1.73.0",
-    "@grpc/grpc-js": "^1.14.5",
-    "@nestjs/common": "^12.1.0",
-    "@nestjs/core": "^12.1.0",
-    "@nestjs/microservices": "^12.1.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2",
+    "@grpc/grpc-js": "1.14.5",
+    "@grpc/proto-loader": "0.8.1",
+    "@nestjs/common": "12.1.0",
+    "@nestjs/core": "12.1.0",
+    "@nestjs/microservices": "12.1.0",
+    "@types/node": "24.19.0",
+    "eslint": "10.11.0",
+    "eslint-config-prettier": "10.1.8",
+    "prettier": "3.9.9",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
     "ts-proto": "2.12.4",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1"
   },
   "peerDependencies": {
     "@grpc/grpc-js": ">=1.14.0",
     "@nestjs/microservices": ">=12.0.0",
     "rxjs": ">=7.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Us-Man-Qa-Sim/ecom-contracts.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "files": [
+    "dist",
+    "proto"
+  ],
   "engines": {
     "node": ">=24.0.0"
   },

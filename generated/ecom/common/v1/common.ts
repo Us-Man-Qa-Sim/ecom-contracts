@@ -20,6 +20,11 @@ export interface PaginationResponse {
   totalPages: number;
 }
 
+/**
+ * Integer minor units (e.g. cents) + ISO 4217 currency code. Never floats.
+ * int32 (max ~21M in major units) keeps values plain JS numbers at runtime;
+ * int64 would arrive as Long/string from @grpc/proto-loader.
+ */
 export interface Money {
   amountMinor: number;
   currency: string;

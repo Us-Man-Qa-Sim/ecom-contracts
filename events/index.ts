@@ -1,5 +1,6 @@
 export { EventEnvelope, EventEnvelopeSchema } from './envelope';
 export { TOPICS, TopicName } from './topics';
+export { EVENT_PAYLOAD_SCHEMAS, EventPayloadMap, TypedEventEnvelope, parseEvent } from './registry';
 export {
   OrderCreatedPayload,
   OrderCreatedPayloadSchema,
