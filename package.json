@@ -55,7 +55,7 @@
     "@nestjs/common": "12.1.0",
     "@nestjs/core": "12.1.0",
     "@nestjs/microservices": "12.1.0",
-    "@types/node": "24.19.0",
+    "@types/node": "26.6.4",
     "eslint": "10.11.0",
     "eslint-config-prettier": "10.1.8",
     "prettier": "3.9.9",
