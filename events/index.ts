@@ -1,4 +1,4 @@
-export { EventEnvelope, EventEnvelopeSchema } from './envelope';
+export { ENVELOPE_VERSION, EventEnvelope, EventEnvelopeSchema } from './envelope';
 export { TOPICS, TopicName } from './topics';
 export { EVENT_PAYLOAD_SCHEMAS, EventPayloadMap, TypedEventEnvelope, parseEvent } from './registry';
 export {
@@ -18,4 +18,10 @@ export {
   OrderDeliveredPayloadSchema,
   UserRegisteredPayload,
   UserRegisteredPayloadSchema,
+  StoreCreatedPayload,
+  StoreCreatedPayloadSchema,
+  StoreUpdatedPayload,
+  StoreUpdatedPayloadSchema,
+  StoreStatusChangedPayload,
+  StoreStatusChangedPayloadSchema,
 } from './payloads';

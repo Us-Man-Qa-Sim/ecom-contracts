@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package ecom.store.v1;
+
+import "google/protobuf/timestamp.proto";
+
+enum StoreStatus {
+  STORE_STATUS_UNSPECIFIED = 0;
+  STORE_STATUS_ACTIVE = 1;
+  STORE_STATUS_SUSPENDED = 2;
+  STORE_STATUS_ARCHIVED = 3;
+}
+
+enum PaymentMethodType {
+  PAYMENT_METHOD_TYPE_UNSPECIFIED = 0;
+  PAYMENT_METHOD_TYPE_COD = 1;
+}
+
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_DISABLED = 2;
+}
+
+message StoreBranding {
+  optional string logo_url = 1;
+  optional string primary_color = 2;
+  optional string secondary_color = 3;
+}
+
+message Store {
+  string id = 1;
+  string slug = 2;
+  string name = 3;
+  StoreStatus status = 4;
+  string currency = 5;
+  string locale = 6;
+  string timezone = 7;
+  StoreBranding branding = 8;
+  optional string sender_email = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+message StorePaymentMethod {
+  string id = 1;
+  PaymentMethodType type = 2;
+  bool enabled = 3;
+  map<string, string> config = 4;
+}
+
+message StoreUser {
+  string id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string store_id = 5;
+  UserStatus status = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message Pagination {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// --- ResolveStore ---
+message ResolveStoreRequest {
+  string host = 1;
+}
+message ResolveStoreResponse {
+  Store store = 1;
+}
+
+// --- GetStore ---
+message GetStoreRequest {
+  string store_id = 1;
+}
+message GetStoreResponse {
+  Store store = 1;
+}
+
+// --- ListStores ---
+message ListStoresRequest {
+  optional string status = 1;
+  optional Pagination pagination = 2;
+}
+message ListStoresResponse {
+  repeated Store stores = 1;
+  int32 total = 2;
+}
+
+// --- CreateStore ---
+message CreateStoreRequest {
+  string slug = 1;
+  string name = 2;
+  string currency = 3;
+  string locale = 4;
+  string timezone = 5;
+  optional StoreBranding branding = 6;
+  optional string sender_email = 7;
+  repeated string hosts = 8;
+}
+message CreateStoreResponse {
+  Store store = 1;
+}
+
+// --- UpdateStore ---
+message UpdateStoreRequest {
+  string store_id = 1;
+  optional string name = 2;
+  optional string currency = 3;
+  optional string locale = 4;
+  optional string timezone = 5;
+  optional StoreBranding branding = 6;
+  optional string sender_email = 7;
+}
+message UpdateStoreResponse {
+  Store store = 1;
+}
+
+// --- SetStoreStatus ---
+message SetStoreStatusRequest {
+  string store_id = 1;
+  string status = 2;
+}
+message SetStoreStatusResponse {
+  Store store = 1;
+}
+
+// --- CreateStoreAdmin ---
+message CreateStoreAdminRequest {
+  string store_id = 1;
+  string email = 2;
+  string password = 3;
+  string first_name = 4;
+  string last_name = 5;
+}
+message CreateStoreAdminResponse {
+  StoreUser user = 1;
+}
+
+// --- ListStoreAdmins ---
+message ListStoreAdminsRequest {
+  string store_id = 1;
+  optional Pagination pagination = 2;
+}
+message ListStoreAdminsResponse {
+  repeated StoreUser admins = 1;
+  int32 total = 2;
+}
+
+// --- SetUserStatus ---
+message SetUserStatusRequest {
+  string user_id = 1;
+  string status = 2;
+}
+message SetUserStatusResponse {
+  StoreUser user = 1;
+}
+
+// --- GetPaymentMethods ---
+message GetPaymentMethodsRequest {
+  string store_id = 1;
+}
+message GetPaymentMethodsResponse {
+  repeated StorePaymentMethod methods = 1;
+}
+
+// --- UpdatePaymentMethods ---
+message UpdatePaymentMethodsRequest {
+  string store_id = 1;
+  repeated StorePaymentMethod methods = 2;
+}
+message UpdatePaymentMethodsResponse {
+  repeated StorePaymentMethod methods = 1;
+}
+
+service StoreService {
+  rpc ResolveStore(ResolveStoreRequest) returns (ResolveStoreResponse);
+  rpc GetStore(GetStoreRequest) returns (GetStoreResponse);
+  rpc ListStores(ListStoresRequest) returns (ListStoresResponse);
+  rpc CreateStore(CreateStoreRequest) returns (CreateStoreResponse);
+  rpc UpdateStore(UpdateStoreRequest) returns (UpdateStoreResponse);
+  rpc SetStoreStatus(SetStoreStatusRequest) returns (SetStoreStatusResponse);
+  rpc CreateStoreAdmin(CreateStoreAdminRequest) returns (CreateStoreAdminResponse);
+  rpc ListStoreAdmins(ListStoreAdminsRequest) returns (ListStoreAdminsResponse);
+  rpc SetUserStatus(SetUserStatusRequest) returns (SetUserStatusResponse);
+  rpc GetPaymentMethods(GetPaymentMethodsRequest) returns (GetPaymentMethodsResponse);
+  rpc UpdatePaymentMethods(UpdatePaymentMethodsRequest) returns (UpdatePaymentMethodsResponse);
+}

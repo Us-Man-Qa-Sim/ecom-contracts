@@ -8,6 +8,7 @@ export const PROTO_FILES = {
   user: join(PROTO_ROOT, 'ecom/user/v1/user.proto'),
   product: join(PROTO_ROOT, 'ecom/product/v1/product.proto'),
   order: join(PROTO_ROOT, 'ecom/order/v1/order.proto'),
+  store: join(PROTO_ROOT, 'ecom/store/v1/store.proto'),
 } as const;
 
 /**

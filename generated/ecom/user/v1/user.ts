@@ -15,7 +15,15 @@ export const protobufPackage = "ecom.user.v1";
 export enum Role {
   ROLE_UNSPECIFIED = 0,
   ROLE_CUSTOMER = 1,
-  ROLE_ADMIN = 2,
+  ROLE_STORE_ADMIN = 2,
+  ROLE_SUPER_ADMIN = 3,
+  UNRECOGNIZED = -1,
+}
+
+export enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0,
+  USER_STATUS_ACTIVE = 1,
+  USER_STATUS_DISABLED = 2,
   UNRECOGNIZED = -1,
 }
 
@@ -27,6 +35,8 @@ export interface User {
   role: Role;
   createdAt: Timestamp | undefined;
   updatedAt: Timestamp | undefined;
+  storeId?: string | undefined;
+  status: UserStatus;
 }
 
 export interface Address {
@@ -41,6 +51,7 @@ export interface Address {
   isDefault: boolean;
   createdAt: Timestamp | undefined;
   updatedAt: Timestamp | undefined;
+  storeId: string;
 }
 
 export interface AuthTokens {

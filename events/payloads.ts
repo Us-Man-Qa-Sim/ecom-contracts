@@ -80,3 +80,31 @@ export const UserRegisteredPayloadSchema = z.object({
 });
 
 export type UserRegisteredPayload = z.infer<typeof UserRegisteredPayloadSchema>;
+
+// --- store.created ---
+
+export const StoreCreatedPayloadSchema = z.object({
+  storeId: z.uuid(),
+  slug: z.string().min(1),
+  name: z.string().min(1),
+});
+
+export type StoreCreatedPayload = z.infer<typeof StoreCreatedPayloadSchema>;
+
+// --- store.updated ---
+
+export const StoreUpdatedPayloadSchema = z.object({
+  storeId: z.uuid(),
+});
+
+export type StoreUpdatedPayload = z.infer<typeof StoreUpdatedPayloadSchema>;
+
+// --- store.status-changed ---
+
+export const StoreStatusChangedPayloadSchema = z.object({
+  storeId: z.uuid(),
+  oldStatus: z.string().min(1),
+  newStatus: z.string().min(1),
+});
+
+export type StoreStatusChangedPayload = z.infer<typeof StoreStatusChangedPayloadSchema>;

@@ -9,6 +9,9 @@ import {
   OrderStockReservationFailedPayloadSchema,
   OrderStockReservedPayloadSchema,
   UserRegisteredPayloadSchema,
+  StoreCreatedPayloadSchema,
+  StoreUpdatedPayloadSchema,
+  StoreStatusChangedPayloadSchema,
 } from './payloads';
 import { TOPICS, TopicName } from './topics';
 
@@ -21,6 +24,9 @@ export const EVENT_PAYLOAD_SCHEMAS = {
   [TOPICS.ORDER_SHIPPED]: OrderShippedPayloadSchema,
   [TOPICS.ORDER_DELIVERED]: OrderDeliveredPayloadSchema,
   [TOPICS.USER_REGISTERED]: UserRegisteredPayloadSchema,
+  [TOPICS.STORE_CREATED]: StoreCreatedPayloadSchema,
+  [TOPICS.STORE_UPDATED]: StoreUpdatedPayloadSchema,
+  [TOPICS.STORE_STATUS_CHANGED]: StoreStatusChangedPayloadSchema,
 } as const satisfies Record<TopicName, z.ZodType>;
 
 export type EventPayloadMap = {

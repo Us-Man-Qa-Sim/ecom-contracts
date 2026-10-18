@@ -1,6 +1,6 @@
 {
   "name": "@us-man-qa-sim/ecom-contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared .proto definitions and event schemas for the ecom microservices platform",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,6 +28,14 @@
     "./generated/order": {
       "types": "./dist/generated/ecom/order/v1/order.d.ts",
       "default": "./dist/generated/ecom/order/v1/order.js"
+    },
+    "./generated/store": {
+      "types": "./dist/generated/ecom/store/v1/store.d.ts",
+      "default": "./dist/generated/ecom/store/v1/store.js"
+    },
+    "./metadata": {
+      "types": "./dist/metadata.d.ts",
+      "default": "./dist/metadata.js"
     },
     "./proto/*": "./proto/*",
     "./package.json": "./package.json"

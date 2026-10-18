@@ -7,6 +7,9 @@ export const TOPICS = {
   ORDER_SHIPPED: 'order.shipped',
   ORDER_DELIVERED: 'order.delivered',
   USER_REGISTERED: 'user.registered',
+  STORE_CREATED: 'store.created',
+  STORE_UPDATED: 'store.updated',
+  STORE_STATUS_CHANGED: 'store.status-changed',
 } as const;
 
 export type TopicName = (typeof TOPICS)[keyof typeof TOPICS];
